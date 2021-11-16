@@ -14,7 +14,7 @@
 avec --> summary_destination
 et comme nom de bucket --> summary-destination-episen3-ds1-mdlg
 
-# Create a S3 bucket - destination of the data pipeline
+
 resource "aws_s3_bucket" "summary_destination" {
   bucket = "summary-destination-episen3-ds1-mdlg"
   acl    = "private"
@@ -33,7 +33,7 @@ Nous allons également créer un fichier kinesis_datastream.tf :
 resource "aws_kinesis_stream" "datastream_ingestion" {
   name        = "ingestion"
   shard_count = 1
-  # The defaut retention period is 24h
+
   retention_period = 24
 
   shard_level_metrics = [
