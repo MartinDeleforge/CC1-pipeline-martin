@@ -104,6 +104,7 @@ Voir le schéma dans le fichier partie 2
 1) 
 
 4) Alerte simple sql
+5) Voir capture dans partie 3 --> configuration du kinesis data firehose
 
 
 
