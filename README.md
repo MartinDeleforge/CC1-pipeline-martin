@@ -101,6 +101,9 @@ Voir le schéma dans le fichier partie 2
 #
 # Partie 3
 
+1) 
+
+4) Alerte simple sql
 
 
 
