@@ -71,7 +71,7 @@ on peut remarquer que ça marche bien !
 
 6) Il sert à faire le lien entre les logs et le kinesis data stream
 
-7) 
+7) Voir partie 2
 
 On va modifier le code sql :
 
