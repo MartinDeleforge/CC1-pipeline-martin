@@ -1,0 +1,679 @@
+var.student_email
+  Enter a value: martindeleforge@gmail.com
+
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the
+following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_iam_instance_profile.ec2_profile will be created
+  + resource "aws_iam_instance_profile" "ec2_profile" {
+      + arn         = (known after apply)
+      + create_date = (known after apply)
+      + id          = (known after apply)
+      + name        = "ec2_profile"
+      + path        = "/"
+      + role        = "kinesis-datastream-cloudwatch-full-access"
+      + tags_all    = (known after apply)
+      + unique_id   = (known after apply)
+    }
+
+  # aws_iam_role.delivery_stream_summary_role will be created
+  + resource "aws_iam_role" "delivery_stream_summary_role" {
+      + arn                   = (known after apply)
+      + assume_role_policy    = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action    = "sts:AssumeRole"
+                      + Effect    = "Allow"
+                      + Principal = {
+                          + Service = "firehose.amazonaws.com"
+                        }
+                      + Sid       = ""
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + create_date           = (known after apply)
+      + force_detach_policies = false
+      + id                    = (known after apply)
+      + managed_policy_arns   = (known after apply)
+      + max_session_duration  = 3600
+      + name                  = "delivery-stream-summary-role"
+      + name_prefix           = (known after apply)
+      + path                  = "/"
+      + tags                  = {
+          + "student" = "martindeleforge@gmail.com"
+        }
+      + tags_all              = {
+          + "student" = "martindeleforge@gmail.com"
+        }
+      + unique_id             = (known after apply)
+
+      + inline_policy {
+          + name   = (known after apply)
+          + policy = (known after apply)
+        }
+    }
+
+  # aws_iam_role.kinesis_analytics_sql_streaming_application will be created
+  + resource "aws_iam_role" "kinesis_analytics_sql_streaming_application" {
+      + arn                   = (known after apply)
+      + assume_role_policy    = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action    = "sts:AssumeRole"
+                      + Effect    = "Allow"
+                      + Principal = {
+                          + Service = "kinesisanalytics.amazonaws.com"
+                        }
+                      + Sid       = ""
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + create_date           = (known after apply)
+      + force_detach_policies = false
+      + id                    = (known after apply)
+      + managed_policy_arns   = (known after apply)
+      + max_session_duration  = 3600
+      + name                  = "kinesis-analytics-sql-streaming-application"
+      + name_prefix           = (known after apply)
+      + path                  = "/"
+      + tags                  = {
+          + "student" = "martindeleforge@gmail.com"
+        }
+      + tags_all              = {
+          + "student" = "martindeleforge@gmail.com"
+        }
+      + unique_id             = (known after apply)
+
+      + inline_policy {
+          + name   = (known after apply)
+          + policy = (known after apply)
+        }
+    }
+
+  # aws_iam_role.kinesis_datastream_cloudwatch_full_access will be created
+  + resource "aws_iam_role" "kinesis_datastream_cloudwatch_full_access" {
+      + arn                   = (known after apply)
+      + assume_role_policy    = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action    = "sts:AssumeRole"
+                      + Effect    = "Allow"
+                      + Principal = {
+                          + Service = "ec2.amazonaws.com"
+                        }
+                      + Sid       = ""
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + create_date           = (known after apply)
+      + force_detach_policies = false
+      + id                    = (known after apply)
+      + managed_policy_arns   = (known after apply)
+      + max_session_duration  = 3600
+      + name                  = "kinesis-datastream-cloudwatch-full-access"
+      + name_prefix           = (known after apply)
+      + path                  = "/"
+      + tags                  = {
+          + "student" = "martindeleforge@gmail.com"
+        }
+      + tags_all              = {
+          + "student" = "martindeleforge@gmail.com"
+        }
+      + unique_id             = (known after apply)
+
+      + inline_policy {
+          + name   = (known after apply)
+          + policy = (known after apply)
+        }
+    }
+
+  # aws_iam_role_policy.cloudwatch_full_access will be created
+  + resource "aws_iam_role_policy" "cloudwatch_full_access" {
+      + id     = (known after apply)
+      + name   = "cloudwatch-full-access"
+      + policy = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action   = [
+                          + "autoscaling:Describe*",
+                          + "cloudwatch:*",
+                          + "logs:*",
+                          + "sns:*",
+                          + "iam:GetPolicy",
+                          + "iam:GetPolicyVersion",
+                          + "iam:GetRole",
+                        ]
+                      + Effect   = "Allow"
+                      + Resource = "*"
+                    },
+                  + {
+                      + Action    = "iam:CreateServiceLinkedRole"
+                      + Condition = {
+                          + StringLike = {
+                              + iam:AWSServiceName = "events.amazonaws.com"
+                            }
+                        }
+                      + Effect    = "Allow"
+                      + Resource  = "arn:aws:iam::*:role/aws-service-role/events.amazonaws.com/AWSServiceRoleForCloudWatchEvents*"
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + role   = (known after apply)
+    }
+
+  # aws_iam_role_policy.datastream_full_access will be created
+  + resource "aws_iam_role_policy" "datastream_full_access" {
+      + id     = (known after apply)
+      + name   = "datastream-full-access"
+      + policy = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action   = [
+                          + "kinesis:*",
+                        ]
+                      + Effect   = "Allow"
+                      + Resource = "*"
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + role   = (known after apply)
+    }
+
+  # aws_iam_role_policy.datastream_read_firehose_write will be created
+  + resource "aws_iam_role_policy" "datastream_read_firehose_write" {
+      + id     = (known after apply)
+      + name   = "datastream-read-firehose-write"
+      + policy = (known after apply)
+      + role   = (known after apply)
+    }
+
+  # aws_iam_role_policy.delivery_stream_summary_policy will be created
+  + resource "aws_iam_role_policy" "delivery_stream_summary_policy" {
+      + id     = (known after apply)
+      + name   = "delivery-stream-summary-policy"
+      + policy = (known after apply)
+      + role   = (known after apply)
+    }
+
+  # aws_instance.ec2_vm will be created
+  + resource "aws_instance" "ec2_vm" {
+      + ami                                  = "ami-01cc34ab2709337aa"
+      + arn                                  = (known after apply)
+      + associate_public_ip_address          = (known after apply)
+      + availability_zone                    = (known after apply)
+      + cpu_core_count                       = (known after apply)
+      + cpu_threads_per_core                 = (known after apply)
+      + disable_api_termination              = (known after apply)
+      + ebs_optimized                        = (known after apply)
+      + get_password_data                    = false
+      + host_id                              = (known after apply)
+      + iam_instance_profile                 = "ec2_profile"
+      + id                                   = (known after apply)
+      + instance_initiated_shutdown_behavior = (known after apply)
+      + instance_state                       = (known after apply)
+      + instance_type                        = "t2.micro"
+      + ipv6_address_count                   = (known after apply)
+      + ipv6_addresses                       = (known after apply)
+      + key_name                             = "new-key-pair"
+      + monitoring                           = (known after apply)
+      + outpost_arn                          = (known after apply)
+      + password_data                        = (known after apply)
+      + placement_group                      = (known after apply)
+      + placement_partition_number           = (known after apply)
+      + primary_network_interface_id         = (known after apply)
+      + private_dns                          = (known after apply)
+      + private_ip                           = (known after apply)
+      + public_dns                           = (known after apply)
+      + public_ip                            = (known after apply)
+      + secondary_private_ips                = (known after apply)
+      + security_groups                      = (known after apply)
+      + source_dest_check                    = true
+      + subnet_id                            = (known after apply)
+      + tags                                 = {
+          + "student" = "martindeleforge@gmail.com"
+        }
+      + tags_all                             = {
+          + "student" = "martindeleforge@gmail.com"
+        }
+      + tenancy                              = (known after apply)
+      + user_data                            = "9a9fe9ec478a60ab373b63ce1f1ebd05e88b3214"
+      + user_data_base64                     = (known after apply)
+      + vpc_security_group_ids               = (known after apply)
+
+      + capacity_reservation_specification {
+          + capacity_reservation_preference = (known after apply)
+
+          + capacity_reservation_target {
+              + capacity_reservation_id = (known after apply)
+            }
+        }
+
+      + ebs_block_device {
+          + delete_on_termination = (known after apply)
+          + device_name           = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + kms_key_id            = (known after apply)
+          + snapshot_id           = (known after apply)
+          + tags                  = (known after apply)
+          + throughput            = (known after apply)
+          + volume_id             = (known after apply)
+          + volume_size           = (known after apply)
+          + volume_type           = (known after apply)
+        }
+
+      + enclave_options {
+          + enabled = (known after apply)
+        }
+
+      + ephemeral_block_device {
+          + device_name  = (known after apply)
+          + no_device    = (known after apply)
+          + virtual_name = (known after apply)
+        }
+
+      + metadata_options {
+          + http_endpoint               = (known after apply)
+          + http_put_response_hop_limit = (known after apply)
+          + http_tokens                 = (known after apply)
+        }
+
+      + network_interface {
+          + delete_on_termination = (known after apply)
+          + device_index          = (known after apply)
+          + network_interface_id  = (known after apply)
+        }
+
+      + root_block_device {
+          + delete_on_termination = (known after apply)
+          + device_name           = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + kms_key_id            = (known after apply)
+          + tags                  = (known after apply)
+          + throughput            = (known after apply)
+          + volume_id             = (known after apply)
+          + volume_size           = (known after apply)
+          + volume_type           = (known after apply)
+        }
+    }
+
+  # aws_key_pair.new_key_pair will be created
+  + resource "aws_key_pair" "new_key_pair" {
+      + arn             = (known after apply)
+      + fingerprint     = (known after apply)
+      + id              = (known after apply)
+      + key_name        = "new-key-pair"
+      + key_name_prefix = (known after apply)
+      + key_pair_id     = (known after apply)
+      + public_key      = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC8nRFwoq/hqGReKrfBt+8nSbp5IaTA8QXWA0V1ogR6ZSC6fu32NzkeuSz2qZratBji4cN0sWE9Rb8JwyOK226sEbTwOOO+Djju1Gekus01xxQi1SqxD6uup+kMi5ENC052StJSlzf3luPSUiVlebj83FyZ//gf4VZPdrxKTSV5L99I2RbdaUmWOD+veJ2lP9B5tXT3vtyPnGTJSxpN/04Dka8HPgJ6DsikajCAnL2g59mwTNC1Gdg0+512Y/tTc4YLn/pj9g4kxNqvZto4ln6/PwxFuG6mmyDCNSnXGa2Sy+KeRiqk+NYaUDIm5o3jhNIIU84VM0V4xiuuDgp8wbTFHKWAiAbG+gSft6mFWEDyhGE+6L4xmf7vv+hGcXb8CGxoxhqMKzPq3IDlr9VkJy3y+mwgyAH6w5ZE+luTluVtFJhhPRQfQs4OjVag6ou1afFUMPpP0F7sIfGUyHVFn5zhtmzQPd6moIzsYQ0grhGBV3ZIzOflymBPvNxO59+p8HU= GMX+104327706@LAPTOP-NM5G1VRG"
+      + tags_all        = (known after apply)
+    }
+
+  # aws_kinesis_analytics_application.kinesis_sql_streaming_application will be created
+  + resource "aws_kinesis_analytics_application" "kinesis_sql_streaming_application" {
+      + arn                   = (known after apply)
+      + code                  = <<-EOT
+            CREATE OR REPLACE PUMP "STREAM_PUMP" AS INSERT INTO "DESTINATION_SQL_STREAM"
+            SELECT STREAM ROWTIME as datetime, "response" as status, COUNT(*) AS statusCount FROM "SOURCE_SQL_STREAM_001" GROUP BY "response", FLOOR(("SOURCE_SQL_STREAM_001".ROWTIME - TIMESTAMP '1970-01-01 00:00:00') minute / 1 TO MINUTE); 
+        EOT
+      + create_timestamp      = (known after apply)
+      + id                    = (known after apply)
+      + last_update_timestamp = (known after apply)
+      + name                  = "sql-streaming-application"
+      + start_application     = true
+      + status                = (known after apply)
+      + tags_all              = (known after apply)
+      + version               = (known after apply)
+
+      + inputs {
+          + id           = (known after apply)
+          + name_prefix  = "SOURCE_SQL_STREAM"
+          + stream_names = (known after apply)
+
+          + kinesis_stream {
+              + resource_arn = (known after apply)
+              + role_arn     = (known after apply)
+            }
+
+          + parallelism {
+              + count = 1
+            }
+
+          + schema {
+              + record_encoding = "UTF-8"
+
+              + record_columns {
+                  + mapping  = "$.host"
+                  + name     = "host"
+                  + sql_type = "VARCHAR(16)"
+                }
+              + record_columns {
+                  + mapping  = "$.datetime"
+                  + name     = "datetime"
+                  + sql_type = "VARCHAR(32)"
+                }
+              + record_columns {
+                  + mapping  = "$.request"
+                  + name     = "request"
+                  + sql_type = "VARCHAR(64)"
+                }
+              + record_columns {
+                  + mapping  = "$.response"
+                  + name     = "response"
+                  + sql_type = "INTEGER"
+                }
+              + record_columns {
+                  + mapping  = "$.bytes"
+                  + name     = "bytes"
+                  + sql_type = "INTEGER"
+                }
+
+              + record_format {
+                  + record_format_type = (known after apply)
+
+                  + mapping_parameters {
+
+                      + json {
+                          + record_row_path = "$"
+                        }
+                    }
+                }
+            }
+
+          + starting_position_configuration {
+              + starting_position = "NOW"
+            }
+        }
+
+      + outputs {
+          + id   = (known after apply)
+          + name = "DESTINATION_SQL_STREAM"
+
+          + kinesis_firehose {
+              + resource_arn = (known after apply)
+              + role_arn     = (known after apply)
+            }
+
+          + schema {
+              + record_format_type = "JSON"
+            }
+        }
+    }
+
+  # aws_kinesis_firehose_delivery_stream.delivery_stream_summary will be created
+  + resource "aws_kinesis_firehose_delivery_stream" "delivery_stream_summary" {
+      + arn            = (known after apply)
+      + destination    = "s3"
+      + destination_id = (known after apply)
+      + id             = (known after apply)
+      + name           = "delivery-stream-summary"
+      + tags           = {
+          + "student" = "martindeleforge@gmail.com"
+        }
+      + tags_all       = {
+          + "student" = "martindeleforge@gmail.com"
+        }
+      + version_id     = (known after apply)
+
+      + s3_configuration {
+          + bucket_arn         = (known after apply)
+          + buffer_interval    = 300
+          + buffer_size        = 5
+          + compression_format = "UNCOMPRESSED"
+          + role_arn           = (known after apply)
+
+          + cloudwatch_logging_options {
+              + enabled         = (known after apply)
+              + log_group_name  = (known after apply)
+              + log_stream_name = (known after apply)
+            }
+        }
+    }
+
+  # aws_kinesis_stream.datastream_ingestion will be created
+  + resource "aws_kinesis_stream" "datastream_ingestion" {
+      + arn                       = (known after apply)
+      + encryption_type           = "NONE"
+      + enforce_consumer_deletion = false
+      + id                        = (known after apply)
+      + name                      = "datastream_ingestion"
+      + retention_period          = 24
+      + shard_count               = 1
+      + shard_level_metrics       = [
+          + "IncomingBytes",
+          + "OutgoingBytes",
+        ]
+      + tags                      = {
+          + "Environment" = "test"
+        }
+      + tags_all                  = {
+          + "Environment" = "test"
+        }
+    }
+
+  # aws_resourcegroups_group.my_resource_group will be created
+  + resource "aws_resourcegroups_group" "my_resource_group" {
+      + arn      = (known after apply)
+      + id       = (known after apply)
+      + name     = "my-resource-group"
+      + tags_all = (known after apply)
+
+      + resource_query {
+          + query = jsonencode(
+                {
+                  + ResourceTypeFilters = [
+                      + "AWS::AllSupported",
+                    ]
+                  + TagFilters          = [
+                      + {
+                          + Key    = "student"
+                          + Values = [
+                              + "martindeleforge@gmail.com",
+                            ]
+                        },
+                    ]
+                }
+            )
+          + type  = "TAG_FILTERS_1_0"
+        }
+    }
+
+  # aws_s3_bucket.summary_destination will be created
+  + resource "aws_s3_bucket" "summary_destination" {
+      + acceleration_status         = (known after apply)
+      + acl                         = "private"
+      + arn                         = (known after apply)
+      + bucket                      = "summary-destination-episen3-ds1-mdlg"
+      + bucket_domain_name          = (known after apply)
+      + bucket_regional_domain_name = (known after apply)
+      + force_destroy               = false
+      + hosted_zone_id              = (known after apply)
+      + id                          = (known after apply)
+      + region                      = (known after apply)
+      + request_payer               = (known after apply)
+      + tags                        = {
+          + "Environment" = "test"
+          + "Name"        = "S3 bucket"
+        }
+      + tags_all                    = {
+          + "Environment" = "test"
+          + "Name"        = "S3 bucket"
+        }
+      + website_domain              = (known after apply)
+      + website_endpoint            = (known after apply)
+
+      + versioning {
+          + enabled    = (known after apply)
+          + mfa_delete = (known after apply)
+        }
+    }
+
+  # aws_security_group.default will be created
+  + resource "aws_security_group" "default" {
+      + arn                    = (known after apply)
+      + description            = "Managed by Terraform"
+      + egress                 = [
+          + {
+              + cidr_blocks      = [
+                  + "0.0.0.0/0",
+                ]
+              + description      = ""
+              + from_port        = 0
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "-1"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 0
+            },
+        ]
+      + id                     = (known after apply)
+      + ingress                = [
+          + {
+              + cidr_blocks      = [
+                  + "0.0.0.0/0",
+                ]
+              + description      = ""
+              + from_port        = 22
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "tcp"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 22
+            },
+          + {
+              + cidr_blocks      = [
+                  + "0.0.0.0/0",
+                ]
+              + description      = ""
+              + from_port        = 80
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "tcp"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 80
+            },
+        ]
+      + name                   = (known after apply)
+      + name_prefix            = (known after apply)
+      + owner_id               = (known after apply)
+      + revoke_rules_on_delete = false
+      + tags_all               = (known after apply)
+      + vpc_id                 = (known after apply)
+    }
+
+  # random_id.tracker will be created
+  + resource "random_id" "tracker" {
+      + b64_std     = (known after apply)
+      + b64_url     = (known after apply)
+      + byte_length = 8
+      + dec         = (known after apply)
+      + hex         = (known after apply)
+      + id          = (known after apply)
+    }
+
+Plan: 17 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + account_id                 = "616817017023"
+  + caller_arn                 = "arn:aws:iam::616817017023:user/admin"
+  + caller_user                = "AIDAY7HJIYC74DALRIWVL"
+  + current_region             = "us-east-1"
+  + ec2_vm_hostname            = (known after apply)
+  + student                    = "martindeleforge@gmail.com"
+  + summary_destination_bucket = "summary-destination-episen3-ds1-mdlg"
+  + tracker                    = (known after apply)
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+random_id.tracker: Creating...
+random_id.tracker: Creation complete after 0s [id=_587kZxoCBQ]
+aws_key_pair.new_key_pair: Creating...
+aws_iam_role.delivery_stream_summary_role: Creating...
+aws_s3_bucket.summary_destination: Creating...
+aws_kinesis_stream.datastream_ingestion: Creating...
+aws_resourcegroups_group.my_resource_group: Creating...
+aws_iam_role.kinesis_analytics_sql_streaming_application: Creating...
+aws_iam_role.kinesis_datastream_cloudwatch_full_access: Creating...
+aws_security_group.default: Creating...
+aws_key_pair.new_key_pair: Creation complete after 1s [id=new-key-pair]
+aws_iam_role.kinesis_datastream_cloudwatch_full_access: Creation complete after 2s [id=kinesis-datastream-cloudwatch-full-access]
+aws_iam_role_policy.datastream_full_access: Creating...
+aws_iam_role_policy.cloudwatch_full_access: Creating...
+aws_resourcegroups_group.my_resource_group: Creation complete after 2s [id=my-resource-group]
+aws_iam_instance_profile.ec2_profile: Creating...
+aws_iam_role.delivery_stream_summary_role: Creation complete after 2s [id=delivery-stream-summary-role]
+aws_iam_role_policy.cloudwatch_full_access: Creation complete after 1s [id=kinesis-datastream-cloudwatch-full-access:cloudwatch-full-access]
+aws_iam_role.kinesis_analytics_sql_streaming_application: Creation complete after 3s [id=kinesis-analytics-sql-streaming-application]
+aws_iam_role_policy.datastream_full_access: Creation complete after 2s [id=kinesis-datastream-cloudwatch-full-access:datastream-full-access]
+aws_iam_instance_profile.ec2_profile: Creation complete after 3s [id=ec2_profile]
+aws_security_group.default: Creation complete after 5s [id=sg-02f7937fbd77924ab]
+aws_instance.ec2_vm: Creating...
+aws_s3_bucket.summary_destination: Creation complete after 9s [id=summary-destination-episen3-ds1-mdlg]
+aws_kinesis_firehose_delivery_stream.delivery_stream_summary: Creating...
+aws_kinesis_stream.datastream_ingestion: Still creating... [10s elapsed]
+aws_instance.ec2_vm: Still creating... [10s elapsed]
+aws_kinesis_firehose_delivery_stream.delivery_stream_summary: Still creating... [10s elapsed]
+aws_kinesis_stream.datastream_ingestion: Still creating... [20s elapsed]
+aws_instance.ec2_vm: Still creating... [20s elapsed]
+aws_kinesis_firehose_delivery_stream.delivery_stream_summary: Still creating... [20s elapsed]
+aws_kinesis_stream.datastream_ingestion: Still creating... [30s elapsed]
+aws_instance.ec2_vm: Still creating... [30s elapsed]
+aws_kinesis_firehose_delivery_stream.delivery_stream_summary: Still creating... [30s elapsed]
+aws_kinesis_stream.datastream_ingestion: Still creating... [40s elapsed]
+aws_instance.ec2_vm: Still creating... [40s elapsed]
+aws_kinesis_stream.datastream_ingestion: Creation complete after 46s [id=arn:aws:kinesis:us-east-1:616817017023:stream/datastream_ingestion]
+aws_kinesis_firehose_delivery_stream.delivery_stream_summary: Still creating... [40s elapsed]
+aws_instance.ec2_vm: Still creating... [50s elapsed]
+aws_instance.ec2_vm: Creation complete after 53s [id=i-06afb0afef94c2633]
+aws_kinesis_firehose_delivery_stream.delivery_stream_summary: Still creating... [50s elapsed]
+aws_kinesis_firehose_delivery_stream.delivery_stream_summary: Creation complete after 58s [id=arn:aws:firehose:us-east-1:616817017023:deliverystream/delivery-stream-summary]
+aws_iam_role_policy.datastream_read_firehose_write: Creating...
+aws_iam_role_policy.delivery_stream_summary_policy: Creating...
+aws_kinesis_analytics_application.kinesis_sql_streaming_application: Creating...
+aws_iam_role_policy.datastream_read_firehose_write: Creation complete after 1s [id=kinesis-analytics-sql-streaming-application:datastream-read-firehose-write]
+aws_iam_role_policy.delivery_stream_summary_policy: Creation complete after 1s [id=delivery-stream-summary-role:delivery-stream-summary-policy]
+aws_kinesis_analytics_application.kinesis_sql_streaming_application: Still creating... [10s elapsed]
+aws_kinesis_analytics_application.kinesis_sql_streaming_application: Still creating... [20s elapsed]
+aws_kinesis_analytics_application.kinesis_sql_streaming_application: Still creating... [30s elapsed]
+aws_kinesis_analytics_application.kinesis_sql_streaming_application: Still creating... [40s elapsed]
+aws_kinesis_analytics_application.kinesis_sql_streaming_application: Creation complete after 49s [id=arn:aws:kinesisanalytics:us-east-1:616817017023:application/sql-streaming-application]
+
+Apply complete! Resources: 17 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+account_id = "616817017023"
+caller_arn = "arn:aws:iam::616817017023:user/admin"
+caller_user = "AIDAY7HJIYC74DALRIWVL"
+current_region = "us-east-1"
+ec2_vm_hostname = "ec2-54-89-213-114.compute-1.amazonaws.com"
+student = "martindeleforge@gmail.com"
+summary_destination_bucket = "summary-destination-episen3-ds1-mdlg"
+tracker = "_587kZxoCBQ"
