@@ -105,6 +105,7 @@ Voir le schéma dans le fichier partie 2
 
 4) Alerte simple sql
 5) Voir capture dans partie 3 --> configuration du kinesis data firehose
+6) Le variable mail sert à savoir qui lance l'éxécution 
 
 
 
